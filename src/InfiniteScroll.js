@@ -1,11 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
 import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
+
 
 function InfiniteScroll() {
   const [photos, setPhotos] = useState([]);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false); // use this if you want the box to say "loading...". Forgot this lol.
+  const [loading, setLoading] = useState(false);
   const [prevY, setPrevY] = useState(0);
   let photosRef = useRef({});
 
@@ -17,7 +17,7 @@ function InfiniteScroll() {
 
   prevYRef.current = prevY;
 
-  console.log("laodingRef: ", loadingRef);
+  // console.log("loadingRef: ", loadingRef);
 
   useEffect(() => {
     getPhotos();
@@ -34,18 +34,15 @@ function InfiniteScroll() {
   }, []);
 
   const handleObserver = (entities, observer) => {
-    console.log("time to get more photos");
+    
 
     const y = entities[0].boundingClientRect.y;
 
     if (prevYRef.current > y) {
-      console.log("actually getting photos.");
       getPhotos();
       setPage(pageRef.current + 1);
-    } else {
-      console.log("conditional is false");
     }
-    console.log("currenty: ", y, "prevY: ", prevY);
+    // console.log("currenty: ", y, "prevY: ", prevY);
     setPrevY(y);
   };
 
@@ -66,18 +63,18 @@ function InfiniteScroll() {
     <div>
       <div>
         {photos.map((photo) => (
-          <div key={uuidv4()}>
+          <div >
             <h4>id: {photo.id}</h4>
             <img src={photo.url} height="150px" width="200px" />
           </div>
         ))}
       </div>
       <div
-        className="yoHello"
+        className="paginator"
         ref={loadingRef}
-        style={{ height: "100px", margin: "25px", background: "violet" }}
+        style={{ height: "100px", margin: "25px", background: "white" }}
       >
-        <span style={{ display: loading ? "block" : "none" }}>Loading...</span>
+        <h2>Loading...</h2>
       </div>
     </div>
   );
